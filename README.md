@@ -17,3 +17,19 @@ You can load files by drag and drop or by browsing your file system
 Once you load some files you are presented with a default grid of cards with the default template:
 
 <img width="1382" alt="image" src="https://github.com/asturur/nfc-retro-label-printer/assets/1194048/06ac2545-db43-47fb-a230-e725d595c1a5">
+
+## Build and run locally using Docker
+
+Get [docker](https://www.docker.com/)
+
+Build
+```shell
+docker build -t tapto-designer:latest .
+docker run --rm -it -p 8080:80 tapto-designer:latest 
+```
+
+Run a prebuilt image (Linux/Mac Only)
+### run the prebuilt image
+```shell
+docker run --rm -it -p 8080:80 siteworxpro/tapto-designer:latest 
+```
