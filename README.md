@@ -25,7 +25,7 @@ Get [docker](https://www.docker.com/)
 Build
 ```shell
 docker build -t tapto-designer:latest .
-docker run --rm -it -p 8080:80 tapto-designer:latest 
+docker run --rm -p 8080:80 tapto-designer:latest 
 ```
 
 Run a prebuilt image (Linux/Mac Only)
