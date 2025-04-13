@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useAppDataContext } from '../contexts/appData';
 import { CardData, useFileDropperContext } from '../contexts/fileDropper';
-import { setTemplateOnCanvases } from '../utils/setTemplate';
 import { updateColors } from '../utils/updateColors';
+import { setTemplateV2OnCanvases } from '../utils/setTemplateV2';
 
 export const DataToCanvasReconciler = () => {
   const { cards } = useFileDropperContext();
@@ -20,7 +20,7 @@ export const DataToCanvasReconciler = () => {
     if (cards.current.length) {
       setIsIdle(false);
       const selectedCards = cards.current.filter((card) => card.isSelected);
-      setTemplateOnCanvases(selectedCards, template).then((colors) => {
+      setTemplateV2OnCanvases(selectedCards, template).then((colors) => {
         setOriginalColors(colors);
         setCustomColors(colors);
         setIsIdle(true);
@@ -38,7 +38,7 @@ export const DataToCanvasReconciler = () => {
       (card): card is Required<CardData> => !!card.isSelected && !!card.canvas,
     );
     setIsIdle(false);
-    setTemplateOnCanvases(selectedCardsWithDifferentTemplate, template).then(
+    setTemplateV2OnCanvases(selectedCardsWithDifferentTemplate, template).then(
       () => {
         updateColors(selectedCards, customColors, originalColors);
         setIsIdle(true);

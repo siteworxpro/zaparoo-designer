@@ -1,10 +1,9 @@
 import Typography from '@mui/material/Typography';
-import { mediaTargetList } from '../printMediaTypes';
 
 import './Carousel.css';
 import { useAppDataContext } from '../contexts/appData';
 import { templateAuthors } from '../templateAuthors';
-import type { templateType } from '../resourcesTypedef';
+import type { templateTypeV2 } from '../resourcesTypedef';
 import {
   useState,
   useLayoutEffect,
@@ -24,18 +23,12 @@ const getTemplateId = (id: string) => `template_replace_${id}`;
 const TemplatesCarousel = memo(() => {
   const { setTemplate, availableTemplates } = useAppDataContext();
   const { setFiles } = useFileDropperContext();
-  const [items, setItems] = useState<(templateType & { key: string })[]>([]);
+  const [items, setItems] = useState<(templateTypeV2 & { key: string })[]>([]);
   const [img, setImg] = useState<HTMLImageElement>();
   const [toLoad, setToLoad] = useState(0);
 
   useLayoutEffect(() => {
-    setItems(
-      availableTemplates.filter(
-        (tData) =>
-          (!!tData.overlay || !!tData.background) &&
-          !tData.key.includes('blank'),
-      ),
-    );
+    setItems(availableTemplates);
     setToLoad(0);
   }, [availableTemplates]);
 
@@ -61,21 +54,47 @@ const TemplatesCarousel = memo(() => {
   }, [items, img, toLoad]);
 
   return (
-    <>
+    <div className="carousel-container">
       {/* <ThreeDCarousel onClick={console.log} /> */}
-      <Typography variant="h3" color="primary">
-        Click a template from the {items.length} availables to get started:
-      </Typography>
       <div
-        style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: '20px',
+          marginBottom: '1.5em',
+        }}
       >
-        <Typography variant="h5" color="secondary">
-          Or change the card type to one of the {mediaTargetList.length}{' '}
-          available:
-        </Typography>
-        <MediaTypeDropdown />
+        <div className="numberCircle">1</div>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            textAlign: 'left',
+            gap: '10px',
+          }}
+        >
+          <Typography variant="h5" color="secondary">
+            Select your media type:
+          </Typography>
+          <MediaTypeDropdown />
+        </div>
       </div>
-      <div className="carousel-container">
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: '20px',
+          textAlign: 'left',
+        }}
+      >
+        <div className="numberCircle">2</div>
+        <Typography variant="h5" color="secondary">
+          Pick one of {items.length} templates to get started:
+        </Typography>
+      </div>
+      <div className="carousel-element">
         <div className="carousel-scroll">
           {items.map((tData) => (
             <div
@@ -110,7 +129,7 @@ const TemplatesCarousel = memo(() => {
           ))}
         </div>
       </div>
-    </>
+    </div>
   );
 });
 

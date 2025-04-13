@@ -1,11 +1,9 @@
 import { useEffect, useState, MutableRefObject } from 'react';
 import { type CardData } from '../contexts/fileDropper';
-import {
-  setTemplateOnCanvases,
-} from '../utils/setTemplate';
 import { util, FabricImage, type StaticCanvas } from 'fabric';
 import { useAppDataContext } from '../contexts/appData';
 import { updateColors } from '../utils/updateColors';
+import { setTemplateV2OnCanvases } from '../utils/setTemplateV2';
 
 type useLabelEditorParams = {
   padderRef: MutableRefObject<HTMLDivElement | null>;
@@ -37,7 +35,7 @@ export const useLabelEditor = ({
         }
         setImageReady(false);
         imagePromise.then((image) => {
-          const fabricImage = new FabricImage(image);
+          const fabricImage = new FabricImage(image, { resourceType: "main" });
           // @ts-expect-error no originalFile
           fabricImage.originalFile = file;
           const scale = util.findScaleToCover(fabricImage, fabricCanvas);
@@ -66,7 +64,7 @@ export const useLabelEditor = ({
       card.template = template;
       card.colors = customColors;
       card.originalColors = originalColors;
-      setTemplateOnCanvases([card], template).then(() => {
+      setTemplateV2OnCanvases([card], template).then(() => {
         updateColors([card], customColors, originalColors);
         fabricCanvas.requestRenderAll();
       });
