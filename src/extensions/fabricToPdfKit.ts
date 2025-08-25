@@ -257,12 +257,13 @@ export const addCanvasToPdfPage = async (
   box: box,
   needsRotation: boolean,
   template: templateTypeV2,
-  asRaster: boolean
+  asRaster: boolean,
+  printOutlines: boolean
 ) => {
   // translate to position.
   // skip background color, but draw the clip region
   const { media: templateMedia } = template;
-  if (!template.printableAreas) {
+  if (!template.printableAreas && printOutlines) {
     // if there are no printable areas, draw the outline of the card
     makeCardRegion(box, templateMedia, pdfDoc);
     pdfDoc.lineWidth(templateMedia.strokeWidth / 10);
@@ -281,12 +282,17 @@ export const addCanvasToPdfPage = async (
   }
 
   if (asRaster) {
-    const imageFetch = await (await fetch(canvas.toDataURL())).arrayBuffer();
+    const canvasClone = await canvas.clone([]);
+    canvasClone.getObjects().forEach((object: FabricObject) => {
+      if (object['zaparoo-no-print']) {
+        object.visible = false;
+      }
+    });
+    const imageFetch = await (await fetch(canvasClone.toDataURL())).arrayBuffer();
     pdfDoc.image(imageFetch, 0, 0, {
       width: (needsRotation ? box.height : box.width) / 0.24,
       height: (needsRotation ? box.width : box.height) / 0.24,
     });
-
   } else {
     await addObjectsToPdf(canvas.getObjects(), pdfDoc);
   }
