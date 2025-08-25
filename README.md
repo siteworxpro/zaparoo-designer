@@ -28,14 +28,14 @@ Get [docker](https://www.docker.com/)
 
 Build
 ```shell
-docker build -t tapto-designer:latest .
-docker run --rm -p 8080:80 tapto-designer:latest 
+docker build -t zaparoo-designer:latest .
+docker run --rm -p 8080:80 zaparoo-designer:latest 
 ```
 
 Run a prebuilt image (Linux/Mac Only)
 ### run the prebuilt image
 ```shell
-docker run --rm -it -p 8080:80 siteworxpro/tapto-designer:latest 
+docker run --rm -it -p 8080:80 siteworxpro/zaparoo-designer:latest
 ```
 
 Access via [http://localhost:8080](http://localhost:8080)
