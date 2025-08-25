@@ -30,4 +30,4 @@ jobs:
           sbom: true
           provenance: true
           context: .
-          tags: siteworxpro/tapto-designer:${{ github.event.inputs.tag }}
+          tags: siteworxpro/tapto-designer:${{ github.event.inputs.tag }}, siteworxpro/tapto-designer:latest

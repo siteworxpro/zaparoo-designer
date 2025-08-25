@@ -1,6 +1,6 @@
 FROM node:22.5.1 AS build
 
-ADD . .
+COPY . .
 
 RUN yarn install && yarn run prebuild && yarn run build
 
