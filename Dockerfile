@@ -1,8 +1,12 @@
 FROM node:22.5.1 AS build
 
+COPY package.json yarn.lock ./
+
+RUN yarn install
+
 COPY . .
 
-RUN yarn install && yarn run prebuild && yarn run build
+RUN yarn run prebuild && yarn run build
 
 FROM caddy AS runtime
 
